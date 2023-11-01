@@ -855,14 +855,14 @@ impl ObTableLocation {
                                     A.table_id as table_id, A.role as role, A.part_num as part_num, B.svr_port as svr_port,
                                     B.status as status, B.stop_time as stop_time FROM oceanbase.__all_virtual_proxy_schema A inner join oceanbase.__all_server
                                     B on A.svr_ip = B.svr_ip and A.sql_port = B.inner_port WHERE tenant_name = '{}' and database_name='{}'
-                                    and table_name ='{}'",
+                                    and table_name ='{}' and A.role = 1",
                                    &key.tenant_name,
                                    &key.database_name,
                                    &key.table_name),
         _ => format!("SELECT /*+READ_CONSISTENCY(WEAK)*/ A.partition_id as partition_id, A.svr_ip as svr_ip, A.sql_port as sql_port, A.table_id as table_id,
                       A.role as role, A.part_num as part_num, B.svr_port as svr_port, B.status as status, B.stop_time as
                       stop_time FROM oceanbase.__all_virtual_proxy_schema A inner join oceanbase.__all_server B on A.svr_ip = B.svr_ip and
-                      A.sql_port = B.inner_port WHERE tenant_name = '{}' and database_name='{}' and table_name = '{}' and partition_id = 0",
+                      A.sql_port = B.inner_port WHERE tenant_name = '{}' and database_name='{}' and table_name = '{}' and partition_id = 0 and A.role = 1",
                      &key.tenant_name,
                      &key.database_name,
                      &key.table_name),
@@ -999,7 +999,7 @@ impl ObTableLocation {
         let sql = format!("SELECT /*+READ_CONSISTENCY(WEAK)*/ A.partition_id as partition_id, A.svr_ip as svr_ip, A.sql_port as sql_port,
                        A.role as role, B.svr_port as svr_port, B.status as status, B.stop_time as stop_time
                        FROM oceanbase.__all_virtual_proxy_schema A inner join oceanbase.__all_server B on A.svr_ip = B.svr_ip and A.sql_port = B.inner_port
-                       WHERE tenant_name = '{}' and database_name='{}' and table_name = '{}' and partition_id in ({})",
+                       WHERE tenant_name = '{}' and database_name='{}' and table_name = '{}' and partition_id in ({}) and A.role = 1",
                       &key.tenant_name,
                       &key.database_name,
                       &key.table_name,
