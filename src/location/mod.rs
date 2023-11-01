@@ -880,6 +880,8 @@ impl ObTableLocation {
                         ));
                     }
                 };
+
+            warn!("Debug query connection:{id},{svr_ip},{sql_port},{role},{svr_port},{status},{stop_time}");
             // just for id type infer
             let _: i64 = id;
             table_id = tbl_id;
@@ -1020,6 +1022,7 @@ impl ObTableLocation {
                     }
                 };
 
+            warn!("Debug query connection:{part_id},{svr_ip},{sql_port},{role},{svr_port},{status},{stop_time}");
             let partition_id = part_id;
             let role = ObServerRole::from_int(role);
             let status = ObServerStatus::from_string(status);
